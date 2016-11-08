@@ -3,15 +3,26 @@ Title: Mock HTTP Requests for API Testing
 Version: 1.0.0
 Author: Gábor Csárdi
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
-Description: Help testing web APIs fast and reliably. The package operates
-    in two modesl: in record mode, it performs HTTPS requests and records
-    the responses. In replay mode, it uses the recorded responses to
-    perform the tests without calling making HTTP requests.
+Description: Help make web API tests fast and reliable. The package operates
+    in two modes: in record mode, it performs HTTP requests and records
+    the responses in a database. In replay mode, it uses the recorded
+    responses to perform the tests without calling making HTTP requests.
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/gaborcsardi/httrmock
 BugReports: https://github.com/gaborcsardi/httrmock/issues
 RoxygenNote: 5.0.1.9000
-Suggests: 
+Roxygen: list(markdown = TRUE)
+Suggests:
+    jsonlite,
+    pingr,
     testthat
 Encoding: UTF-8
+Imports:
+    debugme,
+    digest,
+    httr (>= 1.2.1),
+    rprojroot,
+    storr,
+    utils,
+    whoami

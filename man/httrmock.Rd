@@ -8,4 +8,84 @@
 \description{
 Mock HTTP Requests for API Testing
 }
+\section{Introduction}{
+
+
+Help make web API tests fast and reliable. The package operates
+in two modes: in record mode, it performs HTTP requests and records
+the responses in a database. In replay mode, it uses the recorded
+responses to perform the tests without calling making HTTP requests.
+
+\code{httrmock} is suitable for packages that use the \code{httr} package to
+make HTTP queries.
+
+It operates in two modes:
+\itemize{
+\item In \emph{recording} mode, it intercepts all HTTP requests, and saves
+both the request and the response to it in an internal database.
+(More about the database later.)
+\item In \emph{replaying} mode, it intercepts the HTTP requests, and checks if
+they are in its internal database. If a request is found in the
+internal database, then it does not perform it, only returns the
+corresponding response from the database. If the request is not in the
+database, then it performs it.
+}
+}
+
+\section{Usage in packages}{
+
+
+To use \code{httrmock} with \code{testthat} tests in a package, use the
+following code in \code{tests/testthat.R}:\preformatted{library(testthat)
+library(<yourpackage>)
+httrmock::start_replaying()
+test_check("<yourpackage>")
+httrmock::stop_replaying()
+}
+
+This runs the tests during \code{R CMD check} with replay mode turned on,
+and assumes that you already recorded the requests.
+
+Running the tests via \code{devtools::test} unfortunately ignores this
+file, so while developing the package with devtools, you need to
+turn on or off the recording or replaying manually.
+
+The following seems to be a sensible workflow:
+\enumerate{
+\item Turn off recording and replaying.
+\item Write all tests, and make sure they pass.
+\item Remove all recorded requests and responses with \code{\link[=clear_recordings]{clear_recordings()}}.
+\item Turn on recording with \code{\link[=start_recording]{start_recording()}}.
+\item Run all the tests to record the requests.
+\item Turn off recording, turn on replaying.
+\item Make sure all tests still pass.
+\item Try running \code{R CMD check} or \code{devtools::check()} on the package
+as a final test.
+}
+}
+
+\section{The database}{
+
+
+\code{httrmock} uses the \code{storr} package to store the requests and responses
+in RDS files, see \code{\link[storr:storr]{storr::storr()}}. By default the database is in the
+\code{tests/testthat} directory, which is appropriate for \code{testthat} tests.
+For an alternative directory, set the the \code{HTTRMOCK_STORE} environment
+variable and point it to the directory you wish to use. The directory
+will be created if it does not exist.
+
+\code{httrmock} was inspired by https://github.com/assaf/node-replay
+}
+
+\section{Debugging}{
+
+
+\code{httrmock} uses \code{debugme} for easy debugging of what is recorded and
+replayed, see \code{\link[debugme:debugme]{debugme::debugme()}} for details.
+}
+\seealso{
+Other HTTP mocking: \code{\link{clear_recordings}},
+  \code{\link{list_recordings}},
+  \code{\link{stop_recording}}
+}
 
