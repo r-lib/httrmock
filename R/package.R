@@ -21,6 +21,8 @@
 #'   corresponding response from the database. If the request is not in the
 #'   database, then it performs it.
 #'
+#' `httrmock` was inspired by https://github.com/assaf/node-replay
+#'
 #' @section Usage in packages:
 #'
 #' To use `httrmock` with `testthat` tests in a package, use the
@@ -60,8 +62,6 @@
 #' For an alternative directory, set the the `HTTRMOCK_STORE` environment
 #' variable and point it to the directory you wish to use. The directory
 #' will be created if it does not exist.
-#'
-#' `httrmock` was inspired by https://github.com/assaf/node-replay
 #'
 #' @section Debugging:
 #'

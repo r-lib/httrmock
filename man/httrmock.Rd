@@ -30,6 +30,8 @@ internal database, then it does not perform it, only returns the
 corresponding response from the database. If the request is not in the
 database, then it performs it.
 }
+
+\code{httrmock} was inspired by https://github.com/assaf/node-replay
 }
 
 \section{Usage in packages}{
@@ -73,8 +75,6 @@ in RDS files, see \code{\link[storr:storr]{storr::storr()}}. By default the data
 For an alternative directory, set the the \code{HTTRMOCK_STORE} environment
 variable and point it to the directory you wish to use. The directory
 will be created if it does not exist.
-
-\code{httrmock} was inspired by https://github.com/assaf/node-replay
 }
 
 \section{Debugging}{
