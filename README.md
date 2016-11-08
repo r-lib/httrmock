@@ -65,8 +65,8 @@ turn on or off the recording or replaying manually.
 The following seems to be a sensible workflow:
 1. Turn off recording and replaying.
 2. Write all tests, and make sure they pass.
-3. Remove all recorded requests and responses with [clear_recordings()].
-4. Turn on recording with [start_recording()].
+3. Remove all recorded requests and responses with `clear_recordings()`.
+4. Turn on recording with `start_recording()`.
 5. Run all the tests to record the requests.
 6. Turn off recording, turn on replaying.
 7. Make sure all tests still pass.
@@ -76,7 +76,7 @@ The following seems to be a sensible workflow:
 ## The database:
 
 `httrmock` uses the `storr` package to store the requests and responses
-in RDS files, see [storr::storr()]. By default the database is in the
+in RDS files, see `storr::storr()`. By default the database is in the
 `tests/testthat` directory, which is appropriate for `testthat` tests.
 For an alternative directory, set the the `HTTRMOCK_STORE` environment
 variable and point it to the directory you wish to use. The directory
@@ -85,12 +85,7 @@ will be created if it does not exist.
 ## Debugging:
 
 `httrmock` uses `debugme` for easy debugging of what is recorded and
-replayed, see [debugme::debugme()] for details.
-
-
-```r
-library(httrmock)
-```
+replayed, see `debugme::debugme()` for details.
 
 ## License
 
