@@ -44,6 +44,7 @@
 #' turn on or off the recording or replaying manually.
 #'
 #' The following seems to be a sensible workflow:
+#'
 #' 1. Turn off recording and replaying.
 #' 2. Write all tests, and make sure they pass.
 #' 3. Remove all recorded requests and responses with [clear_recordings()].
