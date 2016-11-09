@@ -158,23 +158,38 @@ record_tracer_exit_function <- function() {
   tmp$res <- returnValue()
   if (inherits(tmp$res, "response")) {
     "!DEBUG Record a response from '`tmp$res$url`'"
+    req <- filter_request(tmp$req)
+    res <- filter_response(tmp$res)
     get_storr()$set(
-      digest(tmp$req),
+      digest(req),
       list(
-        request = tmp$req,
-        response = tmp$res,
+        request = req,
+        response = res,
         user = username(fallback = "<unknown-user>"),
         timestamp = Sys.time()
       )
     )
-      } else {
-        "!DEBUG Not recording response, error?"
-        warning(
-          "Not recording response from ",
-          tmp$req$url,
-          ", request failed?"
-        )
-      }
+
+  } else {
+    "!DEBUG Not recording response, error?"
+    warning(
+      "Not recording response from ",
+      tmp$req$url,
+      ", request failed?"
+    )
+  }
+}
+
+filter_request <- function(req) {
+  if ("Authorization" %in% names(req$headers)) {
+    req$headers["Authorization"] <- "***** what are you looking for?"
+  }
+  req
+}
+
+filter_response <- function(resp) {
+  resp$request <- filter_request(resp$request)
+  resp
 }
 
 #' @rdname start_recording
@@ -204,7 +219,7 @@ start_replaying_1.2.1 <- function() {
 replay_tracer_function <- function() {
   tmp$req <- get("req", envir = parent.frame())
   storr <- get_storr()
-  key <- digest(tmp$req)
+  key <- digest(filter_request(tmp$req))
   if (storr$exists(key)) {
     "!DEBUG Replay a request to '`tmp$req$url`'"
     assign(
