@@ -182,9 +182,7 @@ record_tracer_exit_function <- function() {
 }
 
 filter_request <- function(req) {
-  if ("Authorization" %in% names(req$headers)) {
-    req$headers["Authorization"] <- "***** what are you looking for?"
-  }
+  req$headers["Authorization"] <- "***** what are you looking for?"
   req
 }
 
