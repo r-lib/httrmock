@@ -22,7 +22,7 @@ test_that("httrmock works", {
   resp2 <- httr::GET("httpbin.org")
   stop_replaying()
 
-  expect_equal(resp1, resp2)
+  expect_equal(filter_response(resp1), resp2)
 
 })
 
@@ -47,7 +47,7 @@ test_that("POST", {
   )
   stop_replaying()
 
-  expect_equal(resp1, resp2)
+  expect_equal(filter_response(resp1), resp2)
 
   json <- jsonlite::fromJSON(httr::content(resp2, as = "text"))
   expect_equal(json$data, "{ \"foo\": 42 }")
