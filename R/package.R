@@ -239,7 +239,7 @@ replay_tracer_function <- function() {
       envir = parent.frame()
     )
   } else {
-    "!DEBUG Request not found: '`tmp$req$url`', performing it"
+    "!DEBUG Request `key` not found: '`tmp$req$url`', performing it"
   }
 }
 
