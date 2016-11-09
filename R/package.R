@@ -88,6 +88,7 @@ get_storr <- function() {
   if (storrpath == "") {
     storrpath <- file.path(find_root(is_testthat), "httrmock")
   }
+  "!DEBUG Getting HTTP data from '`storrpath`'"
   storr_rds(storrpath)
 }
 
