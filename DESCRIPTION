@@ -21,8 +21,9 @@ Encoding: UTF-8
 Imports:
     debugme,
     digest,
-    httr (>= 1.2.1),
+    httr,
     rprojroot,
     storr,
     utils,
     whoami
+Remotes: gaborcsardi/httr@callback

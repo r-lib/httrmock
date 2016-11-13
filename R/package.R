@@ -71,13 +71,8 @@
 #'
 #' @docType package
 #' @name httrmock
-#' @importFrom httr GET
 #' @family HTTP mocking
 NULL
-
-tmp <- new.env()
-tmp$req <- NULL
-tmp$res <- NULL
 
 #' @importFrom rprojroot find_root is_testthat
 #' @importFrom storr storr_rds
@@ -102,15 +97,12 @@ get_storr <- function() {
 }
 
 #' @rdname start_recording
+#' @importFrom httr set_request_callback
 #' @export
 
 stop_recording <- function() {
   "!DEBUG stop recording"
-  untrace_call <- as.call(list(
-    untrace,
-    as.call(list(as.symbol(":::"), quote(httr), quote(request_perform)))
-  ))
-  try(suppressMessages(eval(untrace_call)), silent = TRUE)
+  set_request_callback(NULL)
   invisible()
 }
 
@@ -119,11 +111,7 @@ stop_recording <- function() {
 
 stop_replaying <- function() {
   "!DEBUG stop replaying"
-  untrace_call <- as.call(list(
-    untrace,
-    as.call(list(as.symbol(":::"), quote(httr), quote(request_perform)))
-  ))
-  try(suppressMessages(eval(untrace_call)), silent = TRUE)
+  set_request_callback(NULL)
   invisible()
 }
 
@@ -136,31 +124,17 @@ stop_replaying <- function() {
 
 start_recording <- function() {
   "!DEBUG Set up recording"
-  trace_call <- as.call(list(
-    trace, as.call(list(as.symbol(":::"), quote(httr), quote(request_perform))),
-    print = FALSE,
-    tracer = record_tracer_function,
-    exit = record_tracer_exit_function
-  ))
-  suppressMessages(eval(trace_call))
+  set_request_callback(recorder_function)
   invisible()
-}
-
-record_tracer_function <- function() {
-  tmp$req <- get("req", envir = parent.frame())
-  "!DEBUG Record a request to '`tmp$req$url`'"
 }
 
 #' @importFrom digest digest
 #' @importFrom whoami username
 
-record_tracer_exit_function <- function() {
-
-  tmp$res <- returnValue()
-  if (inherits(tmp$res, "response")) {
-    "!DEBUG Record a response from '`tmp$res$url`'"
-    req <- filter_request(tmp$req)
-    res <- filter_response(tmp$res)
+recorder_function <- function(mode, req, res) {
+  if (mode == "response") {
+    req <- filter_request(req)
+    res <- filter_response(res)
     get_storr()$set(
       digest(req),
       list(
@@ -170,15 +144,9 @@ record_tracer_exit_function <- function() {
         timestamp = Sys.time()
       )
     )
-
-  } else {
-    "!DEBUG Not recording response, error?"
-    warning(
-      "Not recording response from ",
-      tmp$req$url,
-      ", request failed?"
-    )
   }
+
+  NULL
 }
 
 filter_request <- function(req) {
@@ -196,48 +164,22 @@ filter_response <- function(resp) {
 #' @export
 
 start_replaying <- function() {
-  httr_version <- packageVersion("httr")
-  if (httr_version == "1.2.1") {
-    start_replaying_1.2.1()
-  } else {
-    warning("Need httr 1.2.1 for httrmock, not activating replay")
-  }
-}
-
-start_replaying_1.2.1 <- function() {
-  "!DEBUG Set up replaying (httr 1.2.1)"
-  trace_call <- as.call(list(
-    trace, as.call(list(as.symbol(":::"), quote(httr), quote(request_perform))),
-    print = FALSE,
-    tracer = replay_tracer_function
-  ))
-  suppressMessages(eval(trace_call))
+  "!DEBUG Set up replaying"
+  set_request_callback(replayer_function)
   invisible()
 }
 
-replay_tracer_function <- function() {
-  tmp$req <- get("req", envir = parent.frame())
-  storr <- get_storr()
-  key <- digest(filter_request(tmp$req))
-  if (storr$exists(key)) {
-    "!DEBUG Replay a request to '`tmp$req$url`'"
-    assign(
-      "request_fetch",
-      function(...) {
-        list(status_code = 200, headers = raw(0))
-      },
-      envir = parent.frame()
-    )
-    assign("refresh", FALSE, envir = parent.frame())
-    assign(
-          "response",
-      function(...) {
-        storr$get(key)$response
-      },
-      envir = parent.frame()
-    )
-  } else {
-    "!DEBUG Request `key` not found: '`tmp$req$url`', performing it"
+replayer_function <- function(mode, req, res) {
+  if (mode == "request") {
+    storr <- get_storr()
+    key <- digest(filter_request(req))
+    if (storr$exists(key)) {
+      "!DEBUG Replay a request to '`req$url`'"
+      storr$get(key)$response
+    } else {
+      "!DEBUG Request `key` not found: '`req$url`', performing it"
+      NULL
+    }
   }
 }
 
