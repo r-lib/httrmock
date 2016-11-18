@@ -97,12 +97,12 @@ get_storr <- function() {
 }
 
 #' @rdname start_recording
-#' @importFrom httr set_request_callback
+#' @importFrom httr set_callback
 #' @export
 
 stop_recording <- function() {
   "!DEBUG stop recording"
-  set_request_callback(NULL)
+  set_callback("response", NULL)
   invisible()
 }
 
@@ -111,7 +111,7 @@ stop_recording <- function() {
 
 stop_replaying <- function() {
   "!DEBUG stop replaying"
-  set_request_callback(NULL)
+  set_callback("request", NULL)
   invisible()
 }
 
@@ -124,28 +124,25 @@ stop_replaying <- function() {
 
 start_recording <- function() {
   "!DEBUG Set up recording"
-  set_request_callback(recorder_function)
+  set_callback("response", recorder_function)
   invisible()
 }
 
 #' @importFrom digest digest
 #' @importFrom whoami username
 
-recorder_function <- function(mode, req, res) {
-  if (mode == "response") {
-    req <- filter_request(req)
-    res <- filter_response(res)
-    get_storr()$set(
-      digest(req),
-      list(
-        request = req,
-        response = res,
-        user = username(fallback = "<unknown-user>"),
-        timestamp = Sys.time()
-      )
+recorder_function <- function(req, res) {
+  req <- filter_request(req)
+  res <- filter_response(res)
+  get_storr()$set(
+    digest(req),
+    list(
+      request = req,
+      response = res,
+      user = username(fallback = "<unknown-user>"),
+      timestamp = Sys.time()
     )
-  }
-
+  )
   NULL
 }
 
@@ -165,21 +162,19 @@ filter_response <- function(resp) {
 
 start_replaying <- function() {
   "!DEBUG Set up replaying"
-  set_request_callback(replayer_function)
+  set_callback("request", replayer_function)
   invisible()
 }
 
-replayer_function <- function(mode, req, res) {
-  if (mode == "request") {
-    storr <- get_storr()
-    key <- digest(filter_request(req))
-    if (storr$exists(key)) {
-      "!DEBUG Replay a request to '`req$url`'"
-      storr$get(key)$response
-    } else {
-      "!DEBUG Request `key` not found: '`req$url`', performing it"
-      NULL
-    }
+replayer_function <- function(req) {
+  storr <- get_storr()
+  key <- digest(filter_request(req))
+  if (storr$exists(key)) {
+    "!DEBUG Replay a request to '`req$url`'"
+    storr$get(key)$response
+  } else {
+    "!DEBUG Request `key` not found: '`req$url`', performing it"
+    NULL
   }
 }
 
