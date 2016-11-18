@@ -240,3 +240,19 @@ del_recording <- function(id) {
   storr$gc()
   invisible()
 }
+
+#' `httrmock` recording and replaying status
+#'
+#' @return A logical vector of two components: \sQuote{recording} and
+#'   \sQuote{replaying}.
+#'
+#' @family HTTP mocking
+#' @export
+#' @importFrom httr get_callback
+
+mocking_status <- function() {
+  c(
+    "recording" = identical(get_callback("response"), recorder_function),
+    "replaying" = identical(get_callback("request"), replayer_function)
+  )
+}
