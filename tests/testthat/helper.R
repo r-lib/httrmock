@@ -1,5 +1,5 @@
 
-is_online <- function(host = "google.com", port = 80) {
+is_online <- function(host = "httpbin.org", port = 80) {
 
   res <- tryCatch(
     pingr::ping_port(host, count = 1L, port = port),
