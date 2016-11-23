@@ -128,14 +128,14 @@ start_recording <- function() {
   invisible()
 }
 
-#' @importFrom digest digest
 #' @importFrom whoami username
 
 recorder_function <- function(req, res) {
+  key <- request_key(req)
   req <- filter_request(req)
   res <- filter_response(res)
   get_storr()$set(
-    digest(req),
+    key,
     list(
       request = req,
       response = res,
@@ -144,17 +144,6 @@ recorder_function <- function(req, res) {
     )
   )
   NULL
-}
-
-filter_request <- function(req) {
-  req$headers["Authorization"] <- "***** what are you looking for?"
-  req$options <- list()
-  req
-}
-
-filter_response <- function(resp) {
-  resp$request <- filter_request(resp$request)
-  resp
 }
 
 #' @rdname start_recording
@@ -169,7 +158,7 @@ start_replaying <- function() {
 
 replayer_function <- function(req) {
   storr <- get_storr()
-  key <- digest(filter_request(req))
+  key <- request_key(req)
   if (storr$exists(key)) {
     "!DEBUG Replay a request to '`req$url`'"
     storr$get(key)$response
