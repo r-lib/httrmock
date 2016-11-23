@@ -148,6 +148,7 @@ recorder_function <- function(req, res) {
 
 filter_request <- function(req) {
   req$headers["Authorization"] <- "***** what are you looking for?"
+  req$options <- list()
   req
 }
 
