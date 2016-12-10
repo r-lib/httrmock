@@ -32,6 +32,9 @@ outside of \code{with_httrmock_context} calls.
 }
 \examples{
 
+## REcord to a temporary file
+Sys.setenv("HTTRMOCK_STORE" = tempfile())
+
 ## Record a response, in the default context
 start_recording()
 stop_replaying()
@@ -51,5 +54,11 @@ resp2 <- with_httrmock_context(
 
 jsonlite::fromJSON(httr::content(resp1, as = "text"))$headers
 jsonlite::fromJSON(httr::content(resp2, as = "text"))$headers
+}
+\seealso{
+Other HTTP mocking: \code{\link{clear_recordings}},
+  \code{\link{httrmock}}, \code{\link{list_recordings}},
+  \code{\link{mocking_status}},
+  \code{\link{stop_recording}}
 }
 

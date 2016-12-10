@@ -43,7 +43,11 @@ pop_httrmock_context <- function() {
 #' @return The value of `expr`.
 #' 
 #' @export
+#' @family HTTP mocking
 #' @examples
+#'
+#' ## REcord to a temporary file
+#' Sys.setenv("HTTRMOCK_STORE" = tempfile())
 #'
 #' ## Record a response, in the default context
 #' start_recording()
