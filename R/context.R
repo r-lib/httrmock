@@ -2,6 +2,9 @@
 data <- new.env(parent = emptyenv())
 
 ## Empty list must be treated specially
+
+#' @importFrom utils tail
+
 get_httrmock_context <- function() {
   ctx <- data$contexts
   if (length(ctx)) {
