@@ -19,6 +19,7 @@ Suggests:
     testthat
 Encoding: UTF-8
 Imports:
+    assertthat,
     debugme,
     digest,
     httr,

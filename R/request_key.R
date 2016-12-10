@@ -2,7 +2,12 @@
 #' @importFrom digest digest
 
 request_key <- function(req) {
-  digest(list(method = req$method, url = req$url))
+  key <- drop_nulls(list(
+    method = req$method,
+    url = req$url,
+    context = get_httrmock_context()
+  ))
+  digest(key)
 }
 
 filter_request <- function(req) {
