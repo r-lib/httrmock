@@ -132,10 +132,12 @@ start_recording <- function() {
 
 recorder_function <- function(req, res) {
   key <- request_key(req)
+  ns  <- request_namespace(req)
   req <- filter_request(req)
   res <- filter_response(res)
   get_storr()$set(
     key,
+    namespace = ns,
     list(
       request = req,
       response = res,
@@ -159,9 +161,10 @@ start_replaying <- function() {
 replayer_function <- function(req) {
   storr <- get_storr()
   key <- request_key(req)
-  if (storr$exists(key)) {
+  ns  <- request_namespace(req)
+  if (storr$exists(key, namespace = ns)) {
     "!DEBUG Replay a request to '`req$url`'"
-    storr$get(key)$response
+    storr$get(key, namespace = ns)$response
   } else {
     "!DEBUG Request `key` not found: '`req$url`', performing it"
     NULL
@@ -186,8 +189,15 @@ replayer_function <- function(req) {
 list_recordings <- function() {
   "!DEBUG List recordings"
   storr <- get_storr()
-  keys <- storr$list()
-  vals <- lapply(keys, storr$get)
+  nss <- storr$list_namespaces()
+  keys <- unlist(
+    lapply(nss, function(ns) storr$list(namespace = ns)),
+    recursive = FALSE
+  )
+  vals <- unlist(
+    lapply(nss, function(ns) lapply(keys, storr$get, namespace = ns)),
+    recursive = FALSE
+  )
   df <- data.frame(
     stringsAsFactors = FALSE,
     id = keys,
@@ -214,7 +224,7 @@ list_recordings <- function() {
 clear_recordings <- function() {
   "!DEBUG Clear recordings"
   storr <- get_storr()
-  storr$clear()
+  storr$clear(NULL)                     # all namespaces
   storr$gc()
   invisible()
 }
@@ -226,7 +236,11 @@ clear_recordings <- function() {
 del_recording <- function(id) {
   "!DEBUG Delete recording `id`"
   storr <- get_storr()
-  storr$del(id)
+  ## We remove from eveywhere, it should be present once only, anyway
+  nss <- storr$list_namespaces()
+  for (ns in nss) {
+    if (storr$exists(id, namespace = ns)) storr$del(id, namespace = ns)
+  }
   storr$gc()
   invisible()
 }
