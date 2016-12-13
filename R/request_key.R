@@ -10,6 +10,14 @@ request_key <- function(req) {
   digest(key)
 }
 
+request_namespace <- function(req) {
+  paste0(req$method, ":", url_to_ns(req$url))
+}
+
+url_to_ns <- function(url) {
+  gsub("[^a-zA-Z0-9]+", "-", url)
+}
+
 filter_request <- function(req) {
   req$headers["Authorization"] <- "***** what are you looking for?"
   req
