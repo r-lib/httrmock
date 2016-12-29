@@ -12,6 +12,7 @@ request_key <- function(req) {
 
 filter_request <- function(req) {
   req$headers["Authorization"] <- "***** what are you looking for?"
+  req$options$userpwd<-NULL
   req
 }
 
