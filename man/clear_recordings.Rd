@@ -23,6 +23,5 @@ variable, or the default one if it is not set.
 \seealso{
 Other HTTP mocking: \code{\link{httrmock}},
   \code{\link{list_recordings}},
-  \code{\link{mocking_status}},
-  \code{\link{stop_recording}}
+  \code{\link{start_recording}}
 }

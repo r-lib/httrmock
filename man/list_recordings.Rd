@@ -24,6 +24,5 @@ List all HTTP request and response recordings
 }
 \seealso{
 Other HTTP mocking: \code{\link{clear_recordings}},
-  \code{\link{httrmock}}, \code{\link{mocking_status}},
-  \code{\link{stop_recording}}
+  \code{\link{httrmock}}, \code{\link{start_recording}}
 }
