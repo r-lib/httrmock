@@ -43,6 +43,5 @@ replayed, see \code{\link[debugme:debugme]{debugme::debugme()}} for details.
 \seealso{
 Other HTTP mocking: \code{\link{clear_recordings}},
   \code{\link{list_recordings}},
-  \code{\link{mocking_status}},
-  \code{\link{stop_recording}}
+  \code{\link{start_recording}}
 }

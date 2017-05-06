@@ -51,18 +51,13 @@ get_storr <- function() {
   stop_replaying()
 }
 
-#' @rdname start_recording
 #' @importFrom httr set_callback
-#' @export
 
 stop_recording <- function() {
   "!DEBUG stop recording"
   set_callback("response", NULL)
   invisible()
 }
-
-#' @rdname start_recording
-#' @export
 
 stop_replaying <- function() {
   "!DEBUG stop replaying"
@@ -102,10 +97,6 @@ recorder_function <- function(req, res) {
   )
   NULL
 }
-
-#' @rdname start_recording
-#' @importFrom utils packageVersion
-#' @export
 
 start_replaying <- function() {
   "!DEBUG Set up replaying"
@@ -200,13 +191,6 @@ del_recording <- function(id) {
   invisible()
 }
 
-#' `httrmock` recording and replaying status
-#'
-#' @return A logical vector of two components: \sQuote{recording} and
-#'   \sQuote{replaying}.
-#'
-#' @family HTTP mocking
-#' @export
 #' @importFrom httr get_callback
 
 mocking_status <- function() {
