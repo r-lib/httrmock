@@ -83,11 +83,10 @@ will be created if it does not exist.
 \code{httrmock} uses \code{debugme} for easy debugging of what is recorded and
 replayed, see \code{\link[debugme:debugme]{debugme::debugme()}} for details.
 }
+
 \seealso{
 Other HTTP mocking: \code{\link{clear_recordings}},
   \code{\link{list_recordings}},
   \code{\link{mocking_status}},
-  \code{\link{stop_recording}},
-  \code{\link{with_httrmock_context}}
+  \code{\link{stop_recording}}
 }
-
