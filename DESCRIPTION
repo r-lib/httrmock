@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/gaborcsardi/httrmock
 BugReports: https://github.com/gaborcsardi/httrmock/issues
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 Suggests:
     jsonlite,
@@ -23,8 +23,9 @@ Imports:
     debugme,
     digest,
     httr,
+    lintr,
     rprojroot,
     storr,
     utils,
     whoami
-Remotes: gaborcsardi/httr@callback
+Remotes: hadley/httr

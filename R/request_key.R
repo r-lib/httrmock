@@ -4,8 +4,7 @@
 request_key <- function(req) {
   key <- drop_nulls(list(
     method = req$method,
-    url = req$url,
-    context = get_httrmock_context()
+    url = req$url
   ))
   digest(key)
 }

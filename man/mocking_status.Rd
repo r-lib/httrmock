@@ -16,7 +16,5 @@ A logical vector of two components: \sQuote{recording} and
 \seealso{
 Other HTTP mocking: \code{\link{clear_recordings}},
   \code{\link{httrmock}}, \code{\link{list_recordings}},
-  \code{\link{stop_recording}},
-  \code{\link{with_httrmock_context}}
+  \code{\link{stop_recording}}
 }
-

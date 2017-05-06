@@ -21,7 +21,5 @@ start_replaying()
 \seealso{
 Other HTTP mocking: \code{\link{clear_recordings}},
   \code{\link{httrmock}}, \code{\link{list_recordings}},
-  \code{\link{mocking_status}},
-  \code{\link{with_httrmock_context}}
+  \code{\link{mocking_status}}
 }
-
