@@ -1,6 +1,6 @@
 Package: httrmock
 Title: Mock HTTP Requests for API Testing
-Version: 1.0.0
+Version: 1.0.0.9000
 Author: Gábor Csárdi
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
 Description: Help make web API tests fast and reliable. The package operates
