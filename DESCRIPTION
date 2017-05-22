@@ -20,12 +20,16 @@ Suggests:
 Encoding: UTF-8
 Imports:
     assertthat,
+    base64enc,
     debugme,
     digest,
+    glue,
     httr,
     lintr,
+    R6,
     rprojroot,
-    storr,
     utils,
     whoami
-Remotes: hadley/httr
+Remotes:
+    hadley/httr,
+    tidyverse/glue

@@ -25,12 +25,7 @@ TODO
 \section{The database}{
 
 
-\code{httrmock} uses the \code{storr} package to store the requests and responses
-in RDS files, see \code{\link[storr:storr]{storr::storr()}}. By default the database is in the
-\code{tests/testthat} directory, which is appropriate for \code{testthat} tests.
-For an alternative directory, set the the \code{HTTRMOCK_STORE} environment
-variable and point it to the directory you wish to use. The directory
-will be created if it does not exist.
+TODO
 }
 
 \section{Debugging}{

@@ -256,6 +256,8 @@ ct_set_mode <- function(mode) {
   Sys.setenv("HTTRMOCK_CURRENT_TEST_MODE" = mode)
 }
 
+#' @importFrom utils getSrcFilename tail
+
 within_current_test <- function() {
   calls <- sys.calls()
   frames <- sys.frames()
@@ -288,6 +290,8 @@ ct_push <- function() {
   ct_stack$mode <- c(ct_stack$mode, ct_get_mode())
   ct_stack$path <- c(ct_stack$path, pct())
 }
+
+#' @importFrom utils head
 
 ct_pop <- function() {
   mode <- tail(ct_stack$mode, 1)

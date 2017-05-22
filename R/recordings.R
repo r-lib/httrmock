@@ -16,25 +16,7 @@
 
 list_recordings <- function() {
   "!DEBUG List recordings"
-  storr <- get_storr()
-  nss <- setdiff(storr$list_namespaces(), "objects")
-  keys <- unlist(
-    lapply(nss, function(ns) storr$list(namespace = ns)),
-    recursive = FALSE
-  )
-  vals <- unlist(
-    lapply(nss, function(ns) lapply(keys, storr$get, namespace = ns)),
-    recursive = FALSE
-  )
-  df <- data.frame(
-    stringsAsFactors = FALSE,
-    id = keys,
-    method = vapply(vals, function(x) x$request$method, ""),
-    url = vapply(vals, function(x) x$request$url, ""),
-    user = vapply(vals, "[[", "", "user"),
-    timestamp = as.POSIXct(vapply(vals, function(x) as.character(x$timestamp), ""))
-  )
-  structure(df, class = c("httrmock_recordings", "data.frame"))
+  get_store()$list()
 }
 
 #' Delete one or all HTTP request recordings
@@ -51,9 +33,7 @@ list_recordings <- function() {
 
 clear_recordings <- function() {
   "!DEBUG Clear recordings"
-  storr <- get_storr()
-  storr$clear(NULL)                     # all namespaces
-  storr$gc()
+  get_store()$clear()
   invisible()
 }
 
@@ -63,12 +43,5 @@ clear_recordings <- function() {
 
 del_recording <- function(id) {
   "!DEBUG Delete recording `id`"
-  storr <- get_storr()
-  ## We remove from eveywhere, it should be present once only, anyway
-  nss <- storr$list_namespaces()
-  for (ns in nss) {
-    if (storr$exists(id, namespace = ns)) storr$del(id, namespace = ns)
-  }
-  storr$gc()
-  invisible()
+  get_store()$delete(id)
 }
