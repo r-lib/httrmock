@@ -9,8 +9,8 @@ Description: Help make web API tests fast and reliable. The package operates
     responses to perform the tests without calling making HTTP requests.
 License: MIT + file LICENSE
 LazyData: true
-URL: https://github.com/gaborcsardi/httrmock
-BugReports: https://github.com/gaborcsardi/httrmock/issues
+URL: https://github.com/r-lib/httrmock
+BugReports: https://github.com/r-lib/httrmock/issues
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 Suggests:

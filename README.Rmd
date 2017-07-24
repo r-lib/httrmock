@@ -12,8 +12,8 @@ knitr::opts_chunk$set(
 
 > Mock HTTP Requests for API Testing
 
-[![Linux Build Status](https://travis-ci.org/gaborcsardi/httrmock.svg?branch=master)](https://travis-ci.org/gaborcsardi/httrmock)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/github/gaborcsardi/httrmock?svg=true)](https://ci.appveyor.com/project/gaborcsardi/httrmock)
+[![Linux Build Status](https://travis-ci.org/r-lib/httrmock.svg?branch=master)](https://travis-ci.org/r-lib/httrmock)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/github/r-lib/httrmock?svg=true)](https://ci.appveyor.com/project/gaborcsardi/httrmock)
 [![](http://www.r-pkg.org/badges/version/httrmock)](http://www.r-pkg.org/pkg/httrmock)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/httrmock)](http://www.r-pkg.org/pkg/httrmock)
 
@@ -23,7 +23,7 @@ Mock HTTP Requests for API Testing
 ## Installation
 
 ```{r eval = FALSE}
-devtools::install_github("gaborcsardi/httrmock")
+devtools::install_github("r-lib/httrmock")
 ```
 
 ## Introduction
