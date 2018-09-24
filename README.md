@@ -35,7 +35,7 @@ TODO
 `httrmock` uses the `storr` package to store the requests and responses
 in RDS files, see `storr::storr()`. By default the database is in the
 `tests/testthat` directory, which is appropriate for `testthat` tests.
-For an alternative directory, set the the `HTTRMOCK_STORE` environment
+For an alternative directory, set the `HTTRMOCK_STORE` environment
 variable and point it to the directory you wish to use. The directory
 will be created if it does not exist.
 
