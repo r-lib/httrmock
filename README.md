@@ -15,9 +15,11 @@ Mock HTTP Requests for API Testing
 
 ## Installation
 
+Once on CRAN, install the package as usual:
+
 
 ```r
-devtools::install_github("r-lib/httrmock")
+install.packages("r-lib/httrmock")
 ```
 
 ## Introduction
